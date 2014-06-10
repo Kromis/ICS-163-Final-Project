@@ -55,38 +55,42 @@ public class myGUIScript : MonoBehaviour {
 
 	void OnGUI()
 	{
-
 		GUI.skin = this.myGUISkin;
-
-		if(GUI.Button (new Rect(0, 0, Screen.width/2, 150), "Fetch Status"))
-		{
-		}
 		expand = GUI.Toggle (new Rect (Screen.width/2, 0, Screen.width/2, 150), expand, "Expand");
+		if(expand)
+		{
 
 
-		world_name = GUI.TextField (new Rect (0, 600, Screen.width/2, 150), world_name);
-		world_password = GUI.TextField (new Rect (0, 750, Screen.width/2, 150), world_password);
-		player_name = GUI.TextField (new Rect (0, 900, Screen.width/2, 150), player_name);
-		player_password = GUI.TextField (new Rect (0, 1050, Screen.width/2, 150), player_password);
-		enter_code = GUI.TextField (new Rect (0, 1200, Screen.width/2, 150), enter_code);
+			if(GUI.Button (new Rect(0, 0, Screen.width/2, 150), "Fetch Status"))
+			{
+			}
 
-		if (GUI.Button (new Rect (Screen.width/2, 600, Screen.width/2, 150), "PlaceTower")) 
-		{
-		}
-		if (GUI.Button (new Rect (Screen.width/2, 750, Screen.width/2, 150), "UploadTower")) 
-		{
-		}
-		if (GUI.Button (new Rect (Screen.width/2, 900, Screen.width/2, 150), "PlaceBomb")) 
-		{
-		}
-		if (GUI.Button (new Rect (Screen.width/2, 1050, Screen.width/2, 150), "UploadBomb")) 
-		{
-		}
-		if (GUI.Button (new Rect (Screen.width/2, 1200, Screen.width/2, 150), "UploadCode")) 
-		{
-		}
-		if (GUI.Button (new Rect (0, 1350, Screen.width, 150), "LeederBored")) 
-		{
+
+
+			world_name = GUI.TextField (new Rect (0, 600, Screen.width/2, 150), world_name);
+			world_password = GUI.TextField (new Rect (0, 750, Screen.width/2, 150), world_password);
+			player_name = GUI.TextField (new Rect (0, 900, Screen.width/2, 150), player_name);
+			player_password = GUI.TextField (new Rect (0, 1050, Screen.width/2, 150), player_password);
+			enter_code = GUI.TextField (new Rect (0, 1200, Screen.width/2, 150), enter_code);
+
+			if (GUI.Button (new Rect (Screen.width/2, 600, Screen.width/2, 150), "PlaceTower")) 
+			{
+			}
+			if (GUI.Button (new Rect (Screen.width/2, 750, Screen.width/2, 150), "UploadTower")) 
+			{
+			}
+			if (GUI.Button (new Rect (Screen.width/2, 900, Screen.width/2, 150), "PlaceBomb")) 
+			{
+			}
+			if (GUI.Button (new Rect (Screen.width/2, 1050, Screen.width/2, 150), "UploadBomb")) 
+			{
+			}
+			if (GUI.Button (new Rect (Screen.width/2, 1200, Screen.width/2, 150), "UploadCode")) 
+			{
+			}
+			if (GUI.Button (new Rect (0, 1350, Screen.width, 150), "LeederBored")) 
+			{
+			}
 		}
 		/*
 		if (GUI.Button (new Rect (0, 400, 100, 200), "Green")) 
