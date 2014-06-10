@@ -71,6 +71,7 @@ public class myGUIScript : MonoBehaviour {
 			player_password = GUI.TextField (new Rect (0, 1050, Screen.width/2, 150), player_password);
 			enter_code = GUI.TextField (new Rect (0, 1200, Screen.width/2, 150), enter_code);
 
+            
 			if (GUI.Button (new Rect (Screen.width/2, 600, Screen.width/2, 150), "PlaceTower")) 
 			{
 

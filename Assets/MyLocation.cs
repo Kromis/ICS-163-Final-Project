@@ -20,7 +20,10 @@ public class MyLocation : MonoBehaviour {
 	private float low = 10f;
 	private float high = 100f;
 	private float span = 600f;
-	
+
+    private myGUIScript my_guiscript;
+    public GUISkin local_ui;
+
 	public static class Haversine {
 		/* Calculate the distance between 2 points in 3D.  This is a little sketchy because the distance between 2 points in 3D
 		 * is illdefined if you aren't going to stay at the same altitude as you travel between the two points.  The
@@ -65,7 +68,8 @@ public class MyLocation : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator Start () {
 		working = false;
-		
+
+        my_guiscript = GameObject.Find("MyGUI").GetComponent<myGUIScript>();
 		// First, check if user has location service enabled
 		if (!Input.location.isEnabledByUser)
 			yield return false;
@@ -119,6 +123,16 @@ public class MyLocation : MonoBehaviour {
 			}
 		}
 	}
-	
+
+    void OnGUI()
+    {
+        GUI.skin = local_ui;
+
+        if (my_guiscript.expand)
+        {
+            GUI.Label(new Rect(0, 150, Screen.width, 150), "Current Location\n" + Input.location.lastData.latitude + " " 
+                + Input.location.lastData.longitude + ") " + Input.location.lastData.altitude);
+        }
+    }
 	
 }
