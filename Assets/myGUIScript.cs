@@ -22,7 +22,8 @@ public class myGUIScript : MonoBehaviour {
 
 	//ColorPicker[] color_picker;
 
-	//private MyNetworkHelper network_helper;
+	private MyNetworkHelper network_helper;
+	private MyLocation my_location;
 	// Use this for initialization
 	void Start () {
 		if(this.myGUISkin == null)
@@ -32,7 +33,8 @@ public class myGUIScript : MonoBehaviour {
 			return;
 		}
 
-		//network_helper = GameObject.Find ("myNetworkHelper").GetComponentInChildren<MyNetworkHelper> ();
+		network_helper = GameObject.Find ("MyNetworkHelper").GetComponentInChildren<MyNetworkHelper> ();
+		my_location = GameObject.Find("MyLocation").GetComponentInChildren<MyLocation> ();
 
 		world_name = "WorldName";
 		world_password = "WorldPW";
@@ -57,15 +59,11 @@ public class myGUIScript : MonoBehaviour {
 	{
 		GUI.skin = this.myGUISkin;
 		expand = GUI.Toggle (new Rect (Screen.width/2, 0, Screen.width/2, 150), expand, "Expand");
+		if(GUI.Button (new Rect(0, 0, Screen.width/2, 150), "Fetch Status"))
+		{
+		}
 		if(expand)
 		{
-
-
-			if(GUI.Button (new Rect(0, 0, Screen.width/2, 150), "Fetch Status"))
-			{
-			}
-
-
 
 			world_name = GUI.TextField (new Rect (0, 600, Screen.width/2, 150), world_name);
 			world_password = GUI.TextField (new Rect (0, 750, Screen.width/2, 150), world_password);
@@ -75,6 +73,7 @@ public class myGUIScript : MonoBehaviour {
 
 			if (GUI.Button (new Rect (Screen.width/2, 600, Screen.width/2, 150), "PlaceTower")) 
 			{
+
 			}
 			if (GUI.Button (new Rect (Screen.width/2, 750, Screen.width/2, 150), "UploadTower")) 
 			{
