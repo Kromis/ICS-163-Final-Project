@@ -84,11 +84,16 @@ public class MyGUITemplate : MonoBehaviour
 	void checkMyLocation ()
 	{
 		/* TODO: This needs to be completed */
+        if (myLocation == null)
+            myLocation = GameObject.Find("MyLocation").GetComponentInChildren<MyLocation>();
 	}
 	
 	void checkMyGyroController ()
 	{
 		/* TODO: This needs to be completed */
+        if (myGyroController == null)
+            myGyroController = GameObject.Find("Main Camera").GetComponentInChildren<GyroController>();
+
 	}
 	
 	
@@ -106,13 +111,24 @@ public class MyGUITemplate : MonoBehaviour
 		
 		/* Set the U/I fields to defaults */
 		/* TODO: This needs to be completed */
+        expandGUI = false;
+        worldName = "worldName";
+        worldPassword = "worldPassword";
+        playerName = "PlayerName";
+        playerPassword = "PlayerPassword";
+        secretcode = "secret";
 		
 		/* Get the hooks to the other elements of the environment */
 		/* TODO: This needs to be completed */
-		
+        checkMyGyroController();
+        checkMyLocation();
+        checkNetworkHelper();
 		
 		/* set the initial location */
 		/* TODO: This needs to be completed */
+        lastLat = Input.location.lastData.latitude;
+        lastLng = Input.location.lastData.longitude;
+        lastAlt = Input.location.lastData.altitude;
 		
 		/* Set the camera components to initial values */
 		fracJourney = 0.0f;
@@ -122,6 +138,7 @@ public class MyGUITemplate : MonoBehaviour
 		
 		/* Add a few default colors */
 		/* TODO: This needs to be completed (optional) */
+
 	}
 	
 	/* Return a color for a given territory owner.  If we don't have a color,
@@ -319,6 +336,7 @@ public class MyGUITemplate : MonoBehaviour
 				if (state.TryGetValue ("errors", out x)) {
 					foreach(object y in (List<object>)x){
 						// TODO: Decide if you want to do anything with error messages: y.ToString()
+                        Debug.Log(y.ToString() + "\n");
 					}
 				}
 			}
@@ -334,6 +352,7 @@ public class MyGUITemplate : MonoBehaviour
 				if (state.TryGetValue ("errors", out x)) {
 					foreach(object y in (List<object>)x){
 						// TODO: Decide if you want to do anything with error messages: y.ToString()
+                        Debug.Log(y.ToString() + "\n");
 					}
 				}
 			}
@@ -367,7 +386,37 @@ public class MyGUITemplate : MonoBehaviour
 		Input.gyro.enabled = true;
 		
 		// TODO: Implement the rest of the GUI
-		
+        expandGUI = GUI.Toggle(new Rect(Screen.width / 2, 0, Screen.width / 2, 150), expandGUI, "Expand");
+        if (expandGUI)
+        {
+
+            worldName = GUI.TextField(new Rect(0, 600, Screen.width / 2, 150), worldName);
+            worldPassword = GUI.TextField(new Rect(0, 750, Screen.width / 2, 150), worldPassword);
+            playerName = GUI.TextField(new Rect(0, 900, Screen.width / 2, 150), playerName);
+            playerPassword = GUI.TextField(new Rect(0, 1050, Screen.width / 2, 150), playerPassword);
+            secretcode = GUI.TextField(new Rect(0, 1200, Screen.width / 2, 150), secretcode);
+
+
+            if (GUI.Button(new Rect(Screen.width / 2, 600, Screen.width / 2, 150), "PlaceTower"))
+            {
+
+            }
+            if (GUI.Button(new Rect(Screen.width / 2, 750, Screen.width / 2, 150), "UploadTower"))
+            {
+            }
+            if (GUI.Button(new Rect(Screen.width / 2, 900, Screen.width / 2, 150), "PlaceBomb"))
+            {
+            }
+            if (GUI.Button(new Rect(Screen.width / 2, 1050, Screen.width / 2, 150), "UploadBomb"))
+            {
+            }
+            if (GUI.Button(new Rect(Screen.width / 2, 1200, Screen.width / 2, 150), "UploadCode"))
+            {
+            }
+            if (GUI.Button(new Rect(0, 1350, Screen.width, 150), "LeederBored"))
+            {
+            }
+        }
 		
 	}
 	

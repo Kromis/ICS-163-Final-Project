@@ -59,9 +59,6 @@ public class myGUIScript : MonoBehaviour {
 	{
 		GUI.skin = this.myGUISkin;
 		expand = GUI.Toggle (new Rect (Screen.width/2, 0, Screen.width/2, 150), expand, "Expand");
-		if(GUI.Button (new Rect(0, 0, Screen.width/2, 150), "Fetch Status"))
-		{
-		}
 		if(expand)
 		{
 
