@@ -21,7 +21,7 @@ public class MyLocation : MonoBehaviour {
 	private float high = 100f;
 	private float span = 600f;
 
-    private myGUIScript my_guiscript;
+	private MyGUITemplate my_guiscript;
     public GUISkin local_ui;
 
 	public static class Haversine {
@@ -69,7 +69,7 @@ public class MyLocation : MonoBehaviour {
 	IEnumerator Start () {
 		working = false;
 
-        my_guiscript = GameObject.Find("MyGUI").GetComponent<myGUIScript>();
+		my_guiscript = GameObject.Find("MyGUI").GetComponent<MyGUITemplate>();
 		// First, check if user has location service enabled
 		if (!Input.location.isEnabledByUser)
 			yield return false;
@@ -128,10 +128,10 @@ public class MyLocation : MonoBehaviour {
     {
         GUI.skin = local_ui;
 
-        if (my_guiscript.expand)
+		if (my_guiscript.expandGUI)
         {
-            GUI.Label(new Rect(0, 150, Screen.width, 150), "Current Location\n(" + Input.location.lastData.latitude + " " 
-                + Input.location.lastData.longitude + ") " + Input.location.lastData.altitude);
+           // GUI.Label(new Rect(0, 150, Screen.width, 150), "Current Location\n(" + Input.location.lastData.latitude + " " 
+               // + Input.location.lastData.longitude + ") " + Input.location.lastData.altitude);
         }
     }
 	

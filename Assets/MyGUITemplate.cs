@@ -32,7 +32,7 @@ public class MyGUITemplate : MonoBehaviour
 	
 	/********************  Variables that store the value from the GUI ****************/
 	/* This is a toggle that is used to expand the GUI menu */
-	private bool expandGUI;
+	public bool expandGUI;
 	private string worldName;
 	private string worldPassword;
 	private string playerName;
@@ -95,8 +95,13 @@ public class MyGUITemplate : MonoBehaviour
             myGyroController = GameObject.Find("Main Camera").GetComponentInChildren<GyroController>();
 
 	}
-	
-	
+
+	//hook up camera
+	void checkMyCamera()
+	{
+		if(camera == null)
+			camera = GameObject.Find("Main Camera");
+	}
 	void Start ()
 	{
 		/* Initialize the error list */
@@ -123,7 +128,8 @@ public class MyGUITemplate : MonoBehaviour
         checkMyGyroController();
         checkMyLocation();
         checkNetworkHelper();
-		
+		checkMyCamera();
+
 		/* set the initial location */
 		/* TODO: This needs to be completed */
         lastLat = Input.location.lastData.latitude;
@@ -135,7 +141,7 @@ public class MyGUITemplate : MonoBehaviour
 		destination = new Vector3 (myLocation.getLng (),  myLocation.getAlt () + 20, myLocation.getLat ());
 		origin = new Vector3 (camera.transform.position.x, camera.transform.position.y, camera.transform.position.z);
 		
-		
+		//origin = destination;
 		/* Add a few default colors */
 		/* TODO: This needs to be completed (optional) */
 
@@ -378,7 +384,7 @@ public class MyGUITemplate : MonoBehaviour
 	{
 		GUI.skin = this.myGUISkin;
 		
-		if (GUI.Button (new Rect (45, 45, Screen.width/2 - 90, 95), "Fetch Status")) {
+		if (GUI.Button (new Rect (0, 0, Screen.width/2, 150), "Fetch Status")) {
 			myNetworkHelper.refreshGameState(worldName,worldPassword,playerName,playerPassword,refreshGameStateInGUI);
 		}
 		
@@ -396,16 +402,28 @@ public class MyGUITemplate : MonoBehaviour
             playerPassword = GUI.TextField(new Rect(0, 1050, Screen.width / 2, 150), playerPassword);
             secretcode = GUI.TextField(new Rect(0, 1200, Screen.width / 2, 150), secretcode);
 
+			GUI.Label(new Rect(0, 150, Screen.width, 150), "Current Location\n(" + Input.location.lastData.latitude + " " 
+			          + Input.location.lastData.longitude + ") " + Input.location.lastData.altitude);
 
+			if(myNetworkHelper.isTowerSet()){
+				GUI.Label(new Rect(0, 300, Screen.width, 150), "Current Tower\n(" + myNetworkHelper.getTowerLat() + " " 
+				          + myNetworkHelper.getTowerLng() + ") " + myNetworkHelper.getTowerAlt());
+			}
+
+			if(myNetworkHelper.isBombSet()){
+			GUI.Label(new Rect(0, 450, Screen.width, 150), "Current Bomb\n(" + myNetworkHelper.getBombLat()+ " " 
+			          + myNetworkHelper.getBombLng() + ") " + myNetworkHelper.getBombAlt());
+			}
             if (GUI.Button(new Rect(Screen.width / 2, 600, Screen.width / 2, 150), "PlaceTower"))
             {
-
+				myNetworkHelper.buildTowerPoint(myLocation.getLat(), myLocation.getLng(), myLocation.getAlt()); 
             }
             if (GUI.Button(new Rect(Screen.width / 2, 750, Screen.width / 2, 150), "UploadTower"))
             {
             }
             if (GUI.Button(new Rect(Screen.width / 2, 900, Screen.width / 2, 150), "PlaceBomb"))
             {
+				myNetworkHelper.dropBombPoint(myLocation.getLat(), myLocation.getLng(), myLocation.getAlt()); 
             }
             if (GUI.Button(new Rect(Screen.width / 2, 1050, Screen.width / 2, 150), "UploadBomb"))
             {
@@ -416,6 +434,7 @@ public class MyGUITemplate : MonoBehaviour
             if (GUI.Button(new Rect(0, 1350, Screen.width, 150), "LeederBored"))
             {
             }
+
         }
 		
 	}
@@ -434,6 +453,9 @@ public class MyGUITemplate : MonoBehaviour
 				fracJourney = 0.0f;
 			}
 			// TODO: Update the copy of location stored in this class with the current location
+			lastLat = Input.location.lastData.latitude;
+			lastLng = Input.location.lastData.longitude;
+			lastAlt = Input.location.lastData.altitude;
 		} else {
 			if (fracJourney <= 1.0f) {
 				fracJourney += 0.001f;
