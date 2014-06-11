@@ -738,6 +738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mockLocations: 0
+  local_ui: {fileID: 11400000, guid: f5502fcb19048454dbd3d0211441f894, type: 2}
 --- !u!4 &1676699774
 Transform:
   m_ObjectHideFlags: 0

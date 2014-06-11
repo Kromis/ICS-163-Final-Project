@@ -130,7 +130,7 @@ public class MyLocation : MonoBehaviour {
 
         if (my_guiscript.expand)
         {
-            GUI.Label(new Rect(0, 150, Screen.width, 150), "Current Location\n" + Input.location.lastData.latitude + " " 
+            GUI.Label(new Rect(0, 150, Screen.width, 150), "Current Location\n(" + Input.location.lastData.latitude + " " 
                 + Input.location.lastData.longitude + ") " + Input.location.lastData.altitude);
         }
     }
