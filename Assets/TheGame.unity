@@ -221,7 +221,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 60055588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1.08403778, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -574,8 +574,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 641306493}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25, y: 5, z: 25}
+  m_LocalPosition: {x: 0, y: -.100000001, z: 0}
+  m_LocalScale: {x: 100, y: 5, z: 100}
   m_Children: []
   m_Father: {fileID: 1645853227}
 --- !u!1 &1331560877
@@ -643,7 +643,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1331560877}
-  m_LocalRotation: {x: -1.15202326e-07, y: .707106709, z: -.707106829, w: -1.15202312e-07}
+  m_LocalRotation: {x: -1.15202333e-07, y: .707106769, z: -.707106888, w: -1.15202319e-07}
   m_LocalPosition: {x: 10.640914, y: 0, z: -23.8145485}
   m_LocalScale: {x: .109229326, y: .109229326, z: .109229326}
   m_Children: []
@@ -708,7 +708,7 @@ MonoBehaviour:
   myGUISkin: {fileID: 11400000, guid: f5502fcb19048454dbd3d0211441f894, type: 2}
   tower: {fileID: 100000, guid: 99b81da2f394242d7a782ff57007fedc, type: 2}
   bomb: {fileID: 100000, guid: 3d00c03eb29be4e2183c19166f16557a, type: 2}
-  meshMaterial: {fileID: 2100000, guid: d1807471793c44d83ab4697fd53665cf, type: 2}
+  meshMaterial: {fileID: 2100000, guid: 5ee8f4f946b891c4692abd2f46d03039, type: 2}
   expandGUI: 0
 --- !u!4 &1466764539
 Transform:
@@ -863,48 +863,6 @@ Transform:
   m_LocalScale: {x: .109229326, y: .109229326, z: .109229326}
   m_Children: []
   m_Father: {fileID: 1421695704}
---- !u!1 &1966453926
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1966453928}
-  - 114: {fileID: 1966453927}
-  m_Layer: 0
-  m_Name: MyGUI2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1966453927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1966453926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13464747b37d94d6082cbd5e8b256907, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myGUISkin: {fileID: 11400000, guid: f5502fcb19048454dbd3d0211441f894, type: 2}
-  debugs: []
-  expand: 0
-  stroke_name: 0
---- !u!4 &1966453928
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1966453926}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
 --- !u!1 &1972353801
 GameObject:
   m_ObjectHideFlags: 0
