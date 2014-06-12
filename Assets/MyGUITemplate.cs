@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 using System.Collections;
 using System.Collections.Generic;
 
@@ -24,7 +25,7 @@ public class MyGUITemplate : MonoBehaviour
 	
 	/********************  Private hooks to other parts of the environment *****************/
 	/* This is a private hook to the camera that is used to control the view */
-	private GameObject camera;
+	private GameObject mycamera;
 	private MyNetworkHelper myNetworkHelper;
 	private MyLocation myLocation;
 	private GyroController myGyroController;
@@ -99,8 +100,8 @@ public class MyGUITemplate : MonoBehaviour
 	//hook up camera
 	void checkMyCamera()
 	{
-		if(camera == null)
-            camera = GameObject.Find("Main Camera");
+		if(mycamera == null)
+            mycamera = GameObject.Find("Main Camera");
 			
 	}
 	void Start ()
@@ -140,7 +141,7 @@ public class MyGUITemplate : MonoBehaviour
 		/* Set the camera components to initial values */
 		fracJourney = 0.0f;
 		destination = new Vector3 (myLocation.getLng (),  myLocation.getAlt () + 20, myLocation.getLat ());
-		origin = new Vector3 (camera.transform.position.x, camera.transform.position.y, camera.transform.position.z);
+		origin = new Vector3 (mycamera.transform.position.x, mycamera.transform.position.y, mycamera.transform.position.z);
 		
 		//origin = destination;
 		/* Add a few default colors */
@@ -153,7 +154,12 @@ public class MyGUITemplate : MonoBehaviour
 	public Color getOwnerColor(string name){
 		Color color;
 		if (!ownerColors.TryGetValue (name, out color)) {
-			/* TODO: This needs to be completed (optional) */
+			// Create a color at random for 0.0f to 1.0f for RGB
+			color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range (0.0f, 1.0f));
+
+			ownerColors.Add(name, color);
+
+			// Add name and color into ownerColors
 		}
 		return color;
 	}
@@ -426,7 +432,7 @@ public class MyGUITemplate : MonoBehaviour
             }
             if (GUI.Button(new Rect(Screen.width / 2, 750, Screen.width / 2, 150), "UploadTower"))
             {
-                myNetworkHelper.uploadTowerPoint(worldName, worldPassword, playerName, playerPassword, refreshGameStateInGUI);
+                myNetworkHelper.uploadTowerPoint(worldName, worldPassword, playerName, playerPassword, genericCallback);
             }
             if (GUI.Button(new Rect(Screen.width / 2, 900, Screen.width / 2, 150), "PlaceBomb"))
             {
@@ -434,14 +440,14 @@ public class MyGUITemplate : MonoBehaviour
             }
             if (GUI.Button(new Rect(Screen.width / 2, 1050, Screen.width / 2, 150), "UploadBomb"))
             {
-                myNetworkHelper.uploadBombPoint(worldName, worldPassword, playerName, playerPassword, refreshGameStateInGUI);
-            }
-            if (GUI.Button(new Rect(Screen.width / 2, 1200, Screen.width / 2, 150), "UploadCode"))
+				myNetworkHelper.uploadBombPoint(worldName, worldPassword, playerName, playerPassword, genericCallback);
+			}
+			if (GUI.Button(new Rect(Screen.width / 2, 1200, Screen.width / 2, 150), "UploadCode"))
             {
                 //myNetworkHelper.uploadCode(worldName, worldPassword, playerName, playerPassword, refreshGameStateInGUI);
-                myNetworkHelper.uploadCode(worldName, worldPassword, playerName, playerPassword, secretcode, refreshGameStateInGUI);
-            }
-            if (GUI.Button(new Rect(0, 1350, Screen.width, 150), "LeederBored"))
+				myNetworkHelper.uploadCode(worldName, worldPassword, playerName, playerPassword, secretcode, genericCallback);
+			}
+			if (GUI.Button(new Rect(0, 1350, Screen.width, 150), "LeederBored"))
             {
 
             }
@@ -467,49 +473,36 @@ public class MyGUITemplate : MonoBehaviour
 	 * camera to correspond with the physical position */
 	void Update() {
 		if ((lastLng != myLocation.getLng ()) || (lastLat != myLocation.getLat ()) || (lastAlt != myLocation.getAlt ())) 
-        {          
+		{          
 			if(myMesh != null)
-            {
+			{
 				double xdelta = MyLocation.Haversine.calculate(originY,originX, 0.0, originY, myLocation.getLng(),0.0);
 				if(myLocation.getLng() < originX){
- 						xdelta = -xdelta;
- 				}
-  				double ydelta = MyLocation.Haversine.calculate(originY,originX, 0.0, myLocation.getLat(), originX,0.0);
- 				if(myLocation.getLat() < originY){
- 						ydelta = -ydelta;
- 				}
+					xdelta = -xdelta;
+				}
+				double ydelta = MyLocation.Haversine.calculate(originY,originX, 0.0, myLocation.getLat(), originX,0.0);
+				if(myLocation.getLat() < originY){
+					ydelta = -ydelta;
+				}
 				destination = new Vector3 ((float)xdelta,  30.0f, (float)ydelta);
-				origin = new Vector3 (camera.transform.position.x, camera.transform.position.y, camera.transform.position.z);
+				origin = new Vector3 (mycamera.transform.position.x, mycamera.transform.position.y, mycamera.transform.position.z);
 				fracJourney = 0.0f;
-
-<<<<<<< HEAD
+				
+				addDebug("Mesh != null. Origin: " + origin.ToString());
+				
 			}
 			// TODO: Update the copy of location stored in this class with the current location
-			lastLat = Input.location.lastData.latitude;
-			lastLng = Input.location.lastData.longitude;
-			lastAlt = Input.location.lastData.altitude;
-
-		} else {
-=======
-                addDebug("Mesh != null. Origin: " + origin.ToString());
-                
-			}
-			// TODO: Update the copy of location stored in this class with the current location
-            lastLat = myLocation.getLat();
-            lastLng = myLocation.getLng();
-            lastAlt = myLocation.getAlt();
+			lastLat = myLocation.getLat();
+			lastLng = myLocation.getLng();
+			lastAlt = myLocation.getAlt();
 		} 
-        else 
-        {
->>>>>>> FETCH_HEAD
+		else 
+		{
 			if (fracJourney <= 1.0f) {
 				fracJourney += 0.001f;
-				camera.transform.position = Vector3.Lerp (origin, destination, fracJourney);
-
-<<<<<<< HEAD
-=======
-               
->>>>>>> FETCH_HEAD
+				mycamera.transform.position = Vector3.Lerp (origin, destination, fracJourney);
+				
+				
 			}
 		}
 	}
