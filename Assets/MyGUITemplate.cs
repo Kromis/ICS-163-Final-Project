@@ -451,15 +451,18 @@ public class MyGUITemplate : MonoBehaviour
 				destination = new Vector3 ((float)xdelta,  30.0f, (float)ydelta);
 				origin = new Vector3 (camera.transform.position.x, camera.transform.position.y, camera.transform.position.z);
 				fracJourney = 0.0f;
+
 			}
 			// TODO: Update the copy of location stored in this class with the current location
 			lastLat = Input.location.lastData.latitude;
 			lastLng = Input.location.lastData.longitude;
 			lastAlt = Input.location.lastData.altitude;
+
 		} else {
 			if (fracJourney <= 1.0f) {
 				fracJourney += 0.001f;
 				camera.transform.position = Vector3.Lerp (origin, destination, fracJourney);
+
 			}
 		}
 	}
