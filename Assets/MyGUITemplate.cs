@@ -100,7 +100,8 @@ public class MyGUITemplate : MonoBehaviour
 	void checkMyCamera()
 	{
 		if(camera == null)
-			camera = GameObject.Find("Main Camera");
+            camera = GameObject.Find("Main Camera");
+			
 	}
 	void Start ()
 	{
@@ -117,10 +118,10 @@ public class MyGUITemplate : MonoBehaviour
 		/* Set the U/I fields to defaults */
 		/* TODO: This needs to be completed */
         expandGUI = false;
-        worldName = "worldName";
-        worldPassword = "worldPassword";
-        playerName = "PlayerName";
-        playerPassword = "PlayerPassword";
+        worldName = "MiddleEarth";
+        worldPassword = "Bilbo";
+        playerName = "i";
+        playerPassword = "i";
         secretcode = "secret";
 		
 		/* Get the hooks to the other elements of the environment */
@@ -132,9 +133,9 @@ public class MyGUITemplate : MonoBehaviour
 
 		/* set the initial location */
 		/* TODO: This needs to be completed */
-        lastLat = Input.location.lastData.latitude;
-        lastLng = Input.location.lastData.longitude;
-        lastAlt = Input.location.lastData.altitude;
+        lastLat = myLocation.getLat();
+        lastLng = myLocation.getLng();
+        lastAlt = myLocation.getAlt();
 		
 		/* Set the camera components to initial values */
 		fracJourney = 0.0f;
@@ -247,8 +248,11 @@ public class MyGUITemplate : MonoBehaviour
 		
 		object x;
 		if(state.TryGetValue ("error", out x)){  // Make sure there isn't an error
+            Debug.Log("try get value");
 			if(x.ToString().Equals("false")){
+                Debug.Log("try false");
 				if(state.TryGetValue ("data",out x)){ //Get the data component
+                    Debug.Log("try get data");
 					Dictionary<string,object> d = (Dictionary<string,object>) x;
 					if(myMesh == null){  //If this is the first time we've gotten a game state make a mesh
 						object _originX,_originY,_stepXMeters,_stepYMeters,_numXSplits,_numYSplits;
@@ -266,6 +270,8 @@ public class MyGUITemplate : MonoBehaviour
 						numYSplits = int.Parse(_numYSplits.ToString());
 						
 						makeBaseMesh(numXSplits,numYSplits,stepXMeters,stepYMeters);
+
+                        Debug.Log("Mesh != null");
 					}
 					
 					//destroy the towers and bombs - this could be done better,
@@ -308,7 +314,7 @@ public class MyGUITemplate : MonoBehaviour
 						
 						//If there is a bomb, then create one
 						if(_bomb.ToString().Equals ("true")){
-							Object thing = Instantiate(bomb,new Vector3(indexX*stepXMeters,0.0f,indexY*stepYMeters),Quaternion.identity);
+                            Object thing = Instantiate(bomb, new Vector3(indexX * stepXMeters, 0.0f, indexY * stepYMeters), Quaternion.Euler(270, 0, 0));
 							tempWorld.Add (thing);
 							Debug.Log("Got a bomb"+indexX*stepXMeters+" "+alt+" "+indexY*stepYMeters);
 							
@@ -420,6 +426,7 @@ public class MyGUITemplate : MonoBehaviour
             }
             if (GUI.Button(new Rect(Screen.width / 2, 750, Screen.width / 2, 150), "UploadTower"))
             {
+                myNetworkHelper.uploadTowerPoint(worldName, worldPassword, playerName, playerPassword, refreshGameStateInGUI);
             }
             if (GUI.Button(new Rect(Screen.width / 2, 900, Screen.width / 2, 150), "PlaceBomb"))
             {
@@ -427,15 +434,30 @@ public class MyGUITemplate : MonoBehaviour
             }
             if (GUI.Button(new Rect(Screen.width / 2, 1050, Screen.width / 2, 150), "UploadBomb"))
             {
+                myNetworkHelper.uploadBombPoint(worldName, worldPassword, playerName, playerPassword, refreshGameStateInGUI);
             }
             if (GUI.Button(new Rect(Screen.width / 2, 1200, Screen.width / 2, 150), "UploadCode"))
             {
+                //myNetworkHelper.uploadCode(worldName, worldPassword, playerName, playerPassword, refreshGameStateInGUI);
+                myNetworkHelper.uploadCode(worldName, worldPassword, playerName, playerPassword, secretcode, refreshGameStateInGUI);
             }
             if (GUI.Button(new Rect(0, 1350, Screen.width, 150), "LeederBored"))
             {
+
             }
 
+            GUI.Label(new Rect(0, 1500, Screen.width, 150), destination.ToString());
+
+            foreach (string d in errors)
+            {
+                GUI.Label(new Rect(0, 1650, Screen.width, 150), d.ToString());
+            }
+
+            while (errors.Count > 1)
+                errors.RemoveAt(0);
         }
+
+
 		
 	}
 	
@@ -444,14 +466,23 @@ public class MyGUITemplate : MonoBehaviour
 	/** This is called by Unity in the draw loop and we use it to update the
 	 * camera to correspond with the physical position */
 	void Update() {
-		if ((lastLng != myLocation.getLng ()) || (lastLat != myLocation.getLat ()) || (lastAlt != myLocation.getAlt ())) {
-			if(myMesh != null){
+		if ((lastLng != myLocation.getLng ()) || (lastLat != myLocation.getLat ()) || (lastAlt != myLocation.getAlt ())) 
+        {          
+			if(myMesh != null)
+            {
 				double xdelta = MyLocation.Haversine.calculate(originY,originX, 0.0, originY, myLocation.getLng(),0.0);
-				double ydelta = MyLocation.Haversine.calculate(originY,originX, 0.0, myLocation.getLat(), originX,0.0);
+				if(myLocation.getLng() < originX){
+ 						xdelta = -xdelta;
+ 				}
+  				double ydelta = MyLocation.Haversine.calculate(originY,originX, 0.0, myLocation.getLat(), originX,0.0);
+ 				if(myLocation.getLat() < originY){
+ 						ydelta = -ydelta;
+ 				}
 				destination = new Vector3 ((float)xdelta,  30.0f, (float)ydelta);
 				origin = new Vector3 (camera.transform.position.x, camera.transform.position.y, camera.transform.position.z);
 				fracJourney = 0.0f;
 
+<<<<<<< HEAD
 			}
 			// TODO: Update the copy of location stored in this class with the current location
 			lastLat = Input.location.lastData.latitude;
@@ -459,10 +490,26 @@ public class MyGUITemplate : MonoBehaviour
 			lastAlt = Input.location.lastData.altitude;
 
 		} else {
+=======
+                addDebug("Mesh != null. Origin: " + origin.ToString());
+                
+			}
+			// TODO: Update the copy of location stored in this class with the current location
+            lastLat = myLocation.getLat();
+            lastLng = myLocation.getLng();
+            lastAlt = myLocation.getAlt();
+		} 
+        else 
+        {
+>>>>>>> FETCH_HEAD
 			if (fracJourney <= 1.0f) {
 				fracJourney += 0.001f;
 				camera.transform.position = Vector3.Lerp (origin, destination, fracJourney);
 
+<<<<<<< HEAD
+=======
+               
+>>>>>>> FETCH_HEAD
 			}
 		}
 	}
